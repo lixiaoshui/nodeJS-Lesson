@@ -1,10 +1,8 @@
-function Bomb(message){
-    this.message = message;
-    this.explode = function(){
-        console.log(message);
-    }
+function Bomb(){
+    this.message = "bomb!";
 }
-var bomb = bomb("bomb!!!");
-setTimeout(function(){
-    explode();
-},2000);
+Bomb.prototype.explode = function(){
+    console.log(this.message);
+}
+var bomb = new Bomb();
+setTimeout(bomb.explode.bind(bomb),2000);

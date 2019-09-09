@@ -1,3 +1,4 @@
+// 这是第四题
 var time = setInterval(function loop(){
     console.log("I will loop forever!");
 },500);
