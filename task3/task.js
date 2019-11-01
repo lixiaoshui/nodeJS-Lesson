@@ -17,6 +17,17 @@ http.createServer((req,res)=>{
             }
         })
     }
+    else if(req.url === '/addChapter/'){
+        var listPath = path.join(__dirname,'addChapter.html');
+        res.writeHead(200,{'Content-Type':'text/html'});
+        fs.readFile(listPath,'utf-8',(err,data)=>{
+            if(err){
+                // console.error(message);
+            }else{
+                res.end(data);
+            }
+        })
+    }
     else if(req.url === '/list'){
         var listPath = path.join(__dirname,'chapterList.html');
         res.writeHead(200,{'Content-Type':'text/html'});
@@ -57,19 +68,8 @@ http.createServer((req,res)=>{
                 }
             })
         }else{
-            res.end('404');
+            res.end('用户名或密码错误');
         }
-    }
-    else if(req.url === '/addChapter/'){
-        var listPath = path.join(__dirname,'addChapter.html');
-        res.writeHead(200,{'Content-Type':'text/html'});
-        fs.readFile(listPath,'utf-8',(err,data)=>{
-            if(err){
-                // console.error(message);
-            }else{
-                res.end(data);
-            }
-        })
     }
     else if(req.url == '/art/'){
         res.write(JSON.stringify(chapterList));
@@ -79,23 +79,13 @@ http.createServer((req,res)=>{
             nowChapter=chapterList[Id];  
             res.end(JSON.stringify(nowChapter));
     }else if(req.url == '/add'){
-        console.log("收到");
-        var newChapter = {};
-        var postData = ""; 
-         req.addListener("data", function (postDataChunk) {
-            postData += postDataChunk;
-            var title=postData.split("&")[0].replace(/title=/,'');
-            var content=postData.split("&")[1].replace(/content=/,'');
-            newChapter.chapterId=chapterList.length+1;
-            newChapter.chapterName=title;
-            newChapter.chapterDes=content;
-            newChapter.chapterContent=content;
-            newChapter.publishTimer= "2019-08-19";
-            newChapter.author="admin";
-            newChapter.views=1022;
-            newChapter.imgPath='';
-            chapterList.push(newChapter);
+        req.on("data", function(chunk){
+            dataObj += chunk;
         });
+        req.on('end',function(){
+            res.setHeader('标题1','人，越简单就会越快乐;水，掺杂东西越少才会显得清澈靓丽。');
+            res.end('success');
+        })
     }else if(req.url !== '/'){
         var cpurl = '.'+req.url;
         res.writeHead(200,{'Content-type':"text/css"});
