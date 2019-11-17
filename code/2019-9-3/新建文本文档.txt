@@ -1,0 +1,5 @@
+_dirname 表示当前执行脚本所在的目录
+
+
+req里面有一个req的属性  req.url （资源路径和参数）
+req.url里面包括一个path的属性
